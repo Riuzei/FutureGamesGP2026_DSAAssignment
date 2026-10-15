@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13e8befb5ae1445bba8af71ae2821eb5, type: 3}
-  m_Name: DebugPrint Task
+  m_Name: Access Logs
   m_EditorClassIdentifier: Assembly-CSharp::Environment.Tasks.DebugPrintTask
-  textToPrint: Hi, I'm a test task!
+  textToPrint: Access Logs
