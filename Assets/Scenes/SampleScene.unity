@@ -6239,6 +6239,10 @@ PrefabInstance:
       value: 3.0195637
       objectReference: {fileID: 0}
     - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
+      propertyPath: readTask
+      value: 
+      objectReference: {fileID: 11400000, guid: 650c0080bac9ae448bf05ec77b8d9638, type: 2}
+    - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
       propertyPath: sortTask
       value: 
       objectReference: {fileID: 11400000, guid: 20b3efb298c7c184c8ed887bc5473d53, type: 2}

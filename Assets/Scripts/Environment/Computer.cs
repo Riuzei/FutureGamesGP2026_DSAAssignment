@@ -1,56 +1,37 @@
 ﻿using Environment.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace Environment {
     public class Computer : MonoBehaviour, IInteractable 
     {
-        [SerializeField] private TextMeshProUGUI downloadPrompt;
-        [SerializeField] private TextMeshProUGUI statusPrompt;
-        [SerializeField] private TextMeshProUGUI sortPrompt;
-        
-        [SerializeField] private Task[] downloadTaskPool;
+        [SerializeField] private Task readTask;
         [SerializeField] private Task sortTask;
-
-        private GenericQueue<Task> downloadTaskQ = new();
-        private GenericQueue<Task> sortTaskQ = new();
-        private bool isRunning;
+        Worker[] workers;
+        private GenericQueue<Task> tasks = new();
 
         void Start()
         {
-            downloadPrompt.text = "NOTHING\nTO\nDOWNLOAD";
-            statusPrompt.text = "DOING NOTHING";
-            sortPrompt.text = "NOTHING TO SORT";
+            tasks.Enqueue(readTask);
         }
     
         public void OnInteract() 
         {
-            downloadPrompt.text = $"DOWNLOADING...\n[{downloadTaskQ.Count}]";
-            downloadTaskQ.Enqueue(downloadTaskPool[Random.Range(0, downloadTaskPool.Length - 1)]);
-            if (!isRunning) 
-                StartCoroutine(RunTasks());
+            RunTaskInQueue();
         }
         
-        private IEnumerator RunTasks() 
+        private void RunTaskInQueue() 
         {
-            isRunning = true;
-            while(downloadTaskQ.Count > 0)
-            {
-                downloadPrompt.text = $"DOWNLOADING...\n[{downloadTaskQ.Count}]";
-                Task task = downloadTaskQ.Peek();
-                yield return task.Execute(statusPrompt);
-                downloadPrompt.text = $"DOWNLOADING...\n[{downloadTaskQ.Count}]";
-                downloadTaskQ.Dequeue();
-                sortTaskQ.Enqueue(sortTask);
-                sortPrompt.text = $"READY TO SORT\n[{sortTaskQ.Count}]";
-            }    
-            downloadPrompt.text = "NOTHING\nTO\nDOWNLOAD";
-            statusPrompt.text = "DOING NOTHING";
-            if(sortTaskQ.Count < 1)
-                sortPrompt.text = "NOTHING TO SORT";
-            isRunning = false;
+            Task _task = tasks.Peek();
+            _task.Execute();
+            if(_task is ReadFileTask readFileTask) 
+            {   
+                workers = readFileTask.GetWorkers();
+                foreach(Worker worker in workers) 
+                {
+                    Debug.Log($"Name: {worker.name}, ID: {worker.id}, Last Entry : {worker.lastEntranceInEngineRoom}");
+                }
+            }
+            tasks.Dequeue();
         }
     }
     
