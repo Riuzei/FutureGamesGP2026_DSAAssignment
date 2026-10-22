@@ -5,7 +5,6 @@ namespace Environment {
     public class Computer : MonoBehaviour, IInteractable 
     {
         [SerializeField] private Task readTask;
-        [SerializeField] private Task sortTask;
         Worker[] workers;
         private GenericQueue<Task> tasks = new();
 
@@ -23,7 +22,7 @@ namespace Environment {
         {
             Task _task = tasks.Peek();
             _task.Execute();
-            if(_task is ReadFileTask readFileTask) 
+            if(_task is ReadTask readFileTask) 
             {   
                 workers = readFileTask.GetWorkers();
                 foreach(Worker worker in workers) 
