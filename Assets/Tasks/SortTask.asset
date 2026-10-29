@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13e8befb5ae1445bba8af71ae2821eb5, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c009905a5e970947a76aece8cba8580, type: 3}
   m_Name: SortTask
-  m_EditorClassIdentifier: Assembly-CSharp::Environment.Tasks.DownloadTask
-  textToPrint: 
+  m_EditorClassIdentifier: Assembly-CSharp::Environment.Tasks.SortTask

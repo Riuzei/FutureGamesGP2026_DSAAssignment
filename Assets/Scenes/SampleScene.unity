@@ -6245,7 +6245,7 @@ PrefabInstance:
     - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
       propertyPath: sortTask
       value: 
-      objectReference: {fileID: 11400000, guid: 20b3efb298c7c184c8ed887bc5473d53, type: 2}
+      objectReference: {fileID: 11400000, guid: 2b9f80c188b09ae48a7589366cc8df44, type: 2}
     - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
       propertyPath: testTask
       value: 
