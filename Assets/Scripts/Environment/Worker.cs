@@ -4,7 +4,7 @@ using System;
 public class Worker 
 {
     public string name;
-    public int id;
+    public int employeeId;
     public bool hasEngineRoomClearance;
     public string lastEntranceInEngineRoom;
     public string lastExitFromEngineRoom;
