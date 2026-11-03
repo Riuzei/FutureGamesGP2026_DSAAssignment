@@ -7,8 +7,8 @@ namespace Environment {
         [SerializeField] private Task readTask;
         [SerializeField] private Task sortTask;
         
-        Worker[] workers;
-        Worker[] sortedWorkers;
+        Employee[] employees;
+        Employee[] sortedEmployees;
         private GenericQueue<Task> tasks = new();
 
         void Start()
@@ -27,23 +27,23 @@ namespace Environment {
             Task _task = tasks.Peek();
             if (_task is SortTask _sortTask)
             {
-                _sortTask.SetWorkers(workers);
+                _sortTask.SetEmployees(employees);
             }
             _task.Execute();
             if(_task is ReadTask readFileTask) 
             {   
-                workers = readFileTask.GetWorkers();
-                foreach(Worker worker in workers) 
+                employees = readFileTask.GetEmployees();
+                foreach(Employee employee in employees) 
                 {
-                    Debug.Log($"Name: {worker.name}, ID: {worker.employeeId}, Last Entry : {worker.lastEntranceInEngineRoom}");
+                    Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
                 }
             }
             else if(_task is SortTask executedSortTask)
             {
-                sortedWorkers = executedSortTask.GetWorkers();
-                foreach(Worker worker in sortedWorkers) 
+                sortedEmployees = executedSortTask.GetEmployees();
+                foreach(Employee employee in sortedEmployees) 
                 {
-                    Debug.Log($"Name: {worker.name}, ID: {worker.employeeId}, Last Entry : {worker.lastEntranceInEngineRoom}");
+                    Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
                 }
             }
             tasks.Dequeue();

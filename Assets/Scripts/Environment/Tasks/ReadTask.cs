@@ -1,20 +1,19 @@
-﻿using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Environment.Tasks {
     [CreateAssetMenu(fileName = "Read Task", menuName = "Tasks/Read Task")]
     public class ReadTask : Task 
     {
         [SerializeField] private TextAsset jsonFileAsset;
-        Worker[] workers;
+        Employee[] employees;
         public override void Execute() 
         {
-            workers = JsonUtility.FromJson<WorkersArray>("{\"workers\":" + jsonFileAsset.text + "}").workers;
+            employees = JsonUtility.FromJson<EmployeesArray>(jsonFileAsset.text).Employees;
         }
 
-        public Worker[] GetWorkers() 
+        public Employee[] GetEmployees() 
         {
-            return workers;
+            return employees;
         }
     }
 
