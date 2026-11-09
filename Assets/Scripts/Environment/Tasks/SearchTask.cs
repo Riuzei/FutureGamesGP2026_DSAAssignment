@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Environment.Tasks {
+namespace Environment.Tasks 
+{
     [CreateAssetMenu(fileName = "Search Task", menuName = "Tasks/Search Task")]
     public class SearchTask : Task 
     {
         Employee[] employees;
-        public string searchDateTime;
+        public DateTime searchDateTimeStart;
+        public DateTime searchDateTimeEnd;
+
         public override void Execute()
         {
             BinarySearch<Employee> binarySearch = new();

@@ -1,7 +1,8 @@
 ﻿using Environment.Tasks;
 using UnityEngine;
 
-namespace Environment {
+namespace Environment 
+{
     public class Computer : MonoBehaviour, IInteractable 
     {
         [SerializeField] private Task readTask;
