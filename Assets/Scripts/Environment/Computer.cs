@@ -1,4 +1,5 @@
 ﻿using Environment.Tasks;
+using System;
 using UnityEngine;
 
 namespace Environment 
@@ -7,6 +8,7 @@ namespace Environment
     {
         [SerializeField] private Task readTask;
         [SerializeField] private Task sortTask;
+        [SerializeField] private Task searchTask;
         
         Employee[] employees;
         Employee[] sortedEmployees;
@@ -16,6 +18,7 @@ namespace Environment
         {
             tasks.Enqueue(readTask);
             tasks.Enqueue(sortTask);
+            tasks.Enqueue(searchTask);
         }
     
         public void OnInteract() 
@@ -30,6 +33,10 @@ namespace Environment
             {
                 _sortTask.SetEmployees(employees);
             }
+            if(_task is SearchTask _searchTask)
+            {
+                _searchTask.SetEmployees(sortedEmployees);
+            }
             _task.Execute();
             if(_task is ReadTask readFileTask) 
             {   
@@ -42,7 +49,16 @@ namespace Environment
             else if(_task is SortTask executedSortTask)
             {
                 sortedEmployees = executedSortTask.GetEmployees();
+                Console.Clear();
                 foreach(Employee employee in sortedEmployees) 
+                {
+                    Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
+                }
+            }
+            else if(_task is SearchTask executedSearchTask) 
+            {
+                Employee[] employeesInRange = executedSearchTask.GetEmployeesInRange();
+                foreach(Employee employee in employeesInRange) 
                 {
                     Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
                 }

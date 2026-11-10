@@ -6251,6 +6251,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ff03f0eefaebe9e40aa1e0d120fb14ac, type: 2}
     - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
+      propertyPath: searchTask
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e93d37b641bb7c478a67c0d3985b441, type: 2}
+    - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
       propertyPath: sortPrompt
       value: 
       objectReference: {fileID: 1761393310}

@@ -8,14 +8,45 @@ namespace Environment.Tasks
     public class SearchTask : Task 
     {
         Employee[] employees;
-        public DateTime searchDateTimeStart;
-        public DateTime searchDateTimeEnd;
+        Employee[] employeesInRange;
+        public string searchRangeStart;
+        public string searchRangeEnd;
 
         public override void Execute()
         {
-            BinarySearch<Employee> binarySearch = new();
-            EmployeeEntranceComparer comparer = new();
-            binarySearch.Search(employees, employees[0], comparer); //search by entrance time string later
+            DateTime[] times = new DateTime[employees.Length];
+            for (int i = 0; i < employees.Length; i++)
+            {
+                times[i] = DateTime.Parse(employees[i].LastEntranceInEngineRoom);
+            }
+            
+            DateTime dateStart = DateTime.Parse(searchRangeStart);
+            DateTime dateEnd = DateTime.Parse(searchRangeEnd);
+            BinarySearch<DateTime> binarySearch = new();
+            IComparer<DateTime> comparer = Comparer<DateTime>.Default;
+            int foundIndex = binarySearch.Search(times, dateStart, dateEnd, comparer);
+            if(foundIndex == -1)
+            {
+                employeesInRange = new Employee[0];
+                return;
+            }
+            int first = foundIndex;
+            while (first > 0 && times[first - 1] >= dateStart)
+            {
+                first--;
+            }
+
+            int last = foundIndex;
+            while (last < times.Length - 1 && times[last + 1] <= dateEnd)
+            {
+                last++;
+            }
+            employeesInRange = new Employee[last - first + 1];
+            for (int i = first; i <= last; i++)
+            {
+                employeesInRange[i - first] = employees[i];
+            }
+
         }
 
         int LinearSearch(DateTime[] array, DateTime dateTime) 
@@ -35,9 +66,9 @@ namespace Environment.Tasks
             employees = _employees;
         }
 
-        public Employee[] GetEmployees() 
+        public Employee[] GetEmployeesInRange() 
         {
-            return employees;
+            return employeesInRange;
         }
     }
 
@@ -45,27 +76,30 @@ namespace Environment.Tasks
 
 public class BinarySearch<T>
 {
-    public int Search(T[] array, T target, IComparer<T> comparerType)
+    public int Search(T[] array, T rangeStart, T rangeEnd, IComparer<T> comparer)
     {
         int low = 0;
-        int high = array.Length -1;
+        int high = array.Length - 1;
+
         while (low <= high)
         {
-            int median = low + (high - low) / 2;
-            if(comparerType.Compare(array[median], target) == 0)
+            int medianIndex = low + (high - low) / 2;
+            T medianItem = array[medianIndex];
+
+            if (comparer.Compare(medianItem, rangeStart) < 0)
             {
-                return median;
+                low = medianIndex + 1;
             }
-            else if(comparerType.Compare(array[median], target) < 0)
+            else if (comparer.Compare(medianItem, rangeEnd) > 0)
             {
-                low = median + 1;
+                high = medianIndex - 1;
             }
             else
             {
-                high = median - 1;
+                return medianIndex;
             }
         }
+
         return -1;
     }
-    
 }
