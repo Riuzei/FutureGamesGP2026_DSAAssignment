@@ -9,57 +9,57 @@ namespace Environment.Tasks
     {
         Employee[] employees;
         Employee[] employeesInRange;
-        public string searchRangeStart;
-        public string searchRangeEnd;
+        
+        public string rangeStart;
+        public string rangeEnd;
+        public SearchType searchType;
+        public enum SearchType 
+        {
+            Binary,
+            Linear
+        }
 
         public override void Execute()
         {
-            DateTime[] times = new DateTime[employees.Length];
-            for (int i = 0; i < employees.Length; i++)
+            IComparer<string> comparer = Comparer<string>.Default;
+            if(searchType == SearchType.Binary)
             {
-                times[i] = DateTime.Parse(employees[i].LastEntranceInEngineRoom);
+                BinarySearch binarySearch = new();
+                employeesInRange = binarySearch.Search(employees, rangeStart, rangeEnd, employee => employee.LastEntranceInEngineRoom, comparer);
+                
+                RunBenchmark("Binary Search", () => binarySearch.Search(employees, rangeStart, rangeEnd, employee => employee.LastEntranceInEngineRoom, comparer), 1000);
             }
-            
-            DateTime dateStart = DateTime.Parse(searchRangeStart);
-            DateTime dateEnd = DateTime.Parse(searchRangeEnd);
-            BinarySearch<DateTime> binarySearch = new();
-            IComparer<DateTime> comparer = Comparer<DateTime>.Default;
-            int foundIndex = binarySearch.Search(times, dateStart, dateEnd, comparer);
-            if(foundIndex == -1)
+            else if(searchType == SearchType.Linear)
             {
-                employeesInRange = new Employee[0];
-                return;
-            }
-            int first = foundIndex;
-            while (first > 0 && times[first - 1] >= dateStart)
-            {
-                first--;
-            }
-
-            int last = foundIndex;
-            while (last < times.Length - 1 && times[last + 1] <= dateEnd)
-            {
-                last++;
-            }
-            employeesInRange = new Employee[last - first + 1];
-            for (int i = first; i <= last; i++)
-            {
-                employeesInRange[i - first] = employees[i];
+                employeesInRange = LinearSearch(employees, rangeStart, rangeEnd, comparer);
+                
+                RunBenchmark("Linear Search", () => LinearSearch(employees, rangeStart, rangeEnd, comparer), 1000);
             }
 
         }
-
-        int LinearSearch(DateTime[] array, DateTime dateTime) 
+        private static void RunBenchmark(string label, Action action, int runs = 1000)
         {
-            for(int i = 0; i < array.Length; i++) 
+            System.Diagnostics.Stopwatch stopwatch = new();
+            stopwatch.Start();
+            for (int i = 0; i < runs; i++)
+                action();
+            stopwatch.Stop();
+
+            Debug.Log($"{label} Average Time: {stopwatch.Elapsed.TotalMilliseconds / runs:F6} ms per search");
+        }
+        Employee[] LinearSearch(Employee[] array, string start, string end, IComparer<string> comparer) 
+        {
+            List<Employee> result = new List<Employee>();
+            foreach (Employee employee in array) 
             {
-                if(array[i] == dateTime)
+                if (comparer.Compare(employee.LastEntranceInEngineRoom, start) >= 0 && comparer.Compare(employee.LastEntranceInEngineRoom, end) <= 0) 
                 {
-                    return i;
+                    result.Add(employee);
                 }
             }
-            return -1;
+            return result.ToArray();
         }
+
 
         public void SetEmployees(Employee[] _employees) 
         {
@@ -74,18 +74,18 @@ namespace Environment.Tasks
 
 }
 
-public class BinarySearch<T>
+public class BinarySearch
 {
-    public int Search(T[] array, T rangeStart, T rangeEnd, IComparer<T> comparer)
+    // T = Employee; TKey = string;
+    public T[] Search<T, TKey>(T[] array, TKey rangeStart, TKey rangeEnd, Func<T, TKey> GetTKey, IComparer<TKey> comparer)
     {
         int low = 0;
         int high = array.Length - 1;
-
+        int foundIndex = -1;
         while (low <= high)
         {
             int medianIndex = low + (high - low) / 2;
-            T medianItem = array[medianIndex];
-
+            TKey medianItem = GetTKey(array[medianIndex]);
             if (comparer.Compare(medianItem, rangeStart) < 0)
             {
                 low = medianIndex + 1;
@@ -96,10 +96,31 @@ public class BinarySearch<T>
             }
             else
             {
-                return medianIndex;
+                foundIndex = medianIndex;
+                break;
             }
         }
 
-        return -1;
+        int firstIndex = foundIndex;
+        while (firstIndex > 0 && comparer.Compare(GetTKey(array[firstIndex - 1]), rangeStart) >= 0)
+        {
+            firstIndex--;
+        }
+        
+        int lastIndex = foundIndex;
+        while (lastIndex < array.Length - 1 && comparer.Compare(GetTKey(array[lastIndex + 1]), rangeEnd) <= 0)
+        {
+            lastIndex++;
+        }
+        
+        T[] result = new T[lastIndex - firstIndex + 1];
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = array[i + firstIndex];
+        }
+        return result;
     }
 }
+
+
+

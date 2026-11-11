@@ -23,3 +23,4 @@ public class EmployeeEntranceComparer : IComparer<Employee>
         return x.LastEntranceInEngineRoom.CompareTo(y.LastEntranceInEngineRoom);
     }
 }
+

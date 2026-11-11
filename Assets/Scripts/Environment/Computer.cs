@@ -9,6 +9,7 @@ namespace Environment
         [SerializeField] private Task readTask;
         [SerializeField] private Task sortTask;
         [SerializeField] private Task searchTask;
+        [SerializeField] private Task searchTask2;
         
         Employee[] employees;
         Employee[] sortedEmployees;
@@ -19,6 +20,7 @@ namespace Environment
             tasks.Enqueue(readTask);
             tasks.Enqueue(sortTask);
             tasks.Enqueue(searchTask);
+            tasks.Enqueue(searchTask2);
         }
     
         public void OnInteract() 
