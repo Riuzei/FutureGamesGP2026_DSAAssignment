@@ -21,7 +21,7 @@ namespace Environment.Tasks
 
         public override void Execute()
         {
-            IComparer<string> comparer = Comparer<string>.Default;
+            IComparer<string> comparer = StringComparer.Ordinal;
             if(searchType == SearchType.Binary)
             {
                 BinarySearch binarySearch = new();

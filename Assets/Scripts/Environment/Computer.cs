@@ -1,36 +1,47 @@
 ﻿using Environment.Tasks;
-using System;
 using UnityEngine;
 
-namespace Environment 
+namespace Environment
 {
-    public class Computer : MonoBehaviour, IInteractable 
+    public class Computer : MonoBehaviour, IInteractable
     {
         [SerializeField] private Task readTask;
+        [SerializeField] private Task treeLoadTask;
+        [SerializeField] private Task dfsTask;
         [SerializeField] private Task sortTask;
         [SerializeField] private Task searchTask;
-        [SerializeField] private Task searchTask2;
-        
+ 
+
         Employee[] employees;
         Employee[] sortedEmployees;
+        BinaryTree<Employee, string> tree;
         private GenericQueue<Task> tasks = new();
 
         void Start()
         {
             tasks.Enqueue(readTask);
+            tasks.Enqueue(treeLoadTask);
+            tasks.Enqueue(dfsTask);
             tasks.Enqueue(sortTask);
             tasks.Enqueue(searchTask);
-            tasks.Enqueue(searchTask2);
         }
-    
-        public void OnInteract() 
+
+        public void OnInteract()
         {
+            if (tasks.Count == 0) return;
             RunTaskInQueue();
         }
-        
-        private void RunTaskInQueue() 
+
+        private void RunTaskInQueue()
         {
             Task _task = tasks.Peek();
+
+            // give the task its input
+            if (_task is TreeLoadTask loadTask)
+                loadTask.SetEmployees(employees);
+            else if (_task is DFSTask dfs)
+                dfs.SetTree(tree);
+            
             if (_task is SortTask _sortTask)
             {
                 _sortTask.SetEmployees(employees);
@@ -40,33 +51,39 @@ namespace Environment
                 _searchTask.SetEmployees(sortedEmployees);
             }
             _task.Execute();
-            if(_task is ReadTask readFileTask) 
-            {   
+
+            // take the task's output
+            if (_task is ReadTask readFileTask)
+            {
                 employees = readFileTask.GetEmployees();
-                foreach(Employee employee in employees) 
-                {
-                    Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
-                }
+                LogEmployees(employees);
+            }
+            else if (_task is TreeLoadTask executedLoadTask)
+            {
+                tree = executedLoadTask.GetTree();
+            }
+            else if (_task is DFSTask executedDfsTask)
+            {
+                LogEmployees(executedDfsTask.GetEmployeesInRange());
             }
             else if(_task is SortTask executedSortTask)
             {
                 sortedEmployees = executedSortTask.GetEmployees();
-                Console.Clear();
-                foreach(Employee employee in sortedEmployees) 
-                {
-                    Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
-                }
+                LogEmployees(sortedEmployees);
             }
-            else if(_task is SearchTask executedSearchTask) 
+            else if(_task is SearchTask executedSearchTask)
             {
                 Employee[] employeesInRange = executedSearchTask.GetEmployeesInRange();
-                foreach(Employee employee in employeesInRange) 
-                {
-                    Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
-                }
+                LogEmployees(employeesInRange);
             }
+
             tasks.Dequeue();
         }
+
+        private void LogEmployees(Employee[] list)
+        {
+            foreach (Employee employee in list)
+                Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
+        }
     }
-    
 }

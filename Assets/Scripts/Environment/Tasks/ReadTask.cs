@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Environment.Tasks {
+namespace Environment.Tasks 
+{
     [CreateAssetMenu(fileName = "Read Task", menuName = "Tasks/Read Task")]
     public class ReadTask : Task 
     {
