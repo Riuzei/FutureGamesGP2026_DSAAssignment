@@ -13,9 +13,9 @@ namespace Environment.Tasks
 
         public override void Execute()
         {
-            employeesInRange = tree.FindInRange(rangeStart, rangeEnd).ToArray();
+            employeesInRange = tree.FindInRangeDFS(rangeStart, rangeEnd).ToArray();
 
-            Benchmark.Run("DFS Search", () => tree.FindInRange(rangeStart, rangeEnd));
+            Benchmark.Run("DFS Search", () => tree.FindInRangeDFS(rangeStart, rangeEnd));
         }
 
         public void SetTree(BinaryTree<Employee, string> _tree)

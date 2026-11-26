@@ -8,8 +8,9 @@ namespace Environment
         [SerializeField] private Task readTask;
         [SerializeField] private Task treeLoadTask;
         [SerializeField] private Task dfsTask;
-        [SerializeField] private Task sortTask;
-        [SerializeField] private Task searchTask;
+        [SerializeField] private Task bfsTask;
+        // [SerializeField] private Task sortTask;
+        // [SerializeField] private Task searchTask;
  
 
         Employee[] employees;
@@ -22,8 +23,9 @@ namespace Environment
             tasks.Enqueue(readTask);
             tasks.Enqueue(treeLoadTask);
             tasks.Enqueue(dfsTask);
-            tasks.Enqueue(sortTask);
-            tasks.Enqueue(searchTask);
+            tasks.Enqueue(bfsTask);
+            //tasks.Enqueue(sortTask);
+            //tasks.Enqueue(searchTask);
         }
 
         public void OnInteract()
@@ -36,12 +38,13 @@ namespace Environment
         {
             Task _task = tasks.Peek();
 
-            // give the task its input
             if (_task is TreeLoadTask loadTask)
                 loadTask.SetEmployees(employees);
             else if (_task is DFSTask dfs)
                 dfs.SetTree(tree);
-            
+            else if (_task is BFSTask bfs)
+                bfs.SetTree(tree);
+
             if (_task is SortTask _sortTask)
             {
                 _sortTask.SetEmployees(employees);
@@ -52,7 +55,6 @@ namespace Environment
             }
             _task.Execute();
 
-            // take the task's output
             if (_task is ReadTask readFileTask)
             {
                 employees = readFileTask.GetEmployees();
@@ -61,21 +63,26 @@ namespace Environment
             else if (_task is TreeLoadTask executedLoadTask)
             {
                 tree = executedLoadTask.GetTree();
+                Debug.Log("Binary Tree Loaded!");
             }
-            else if (_task is DFSTask executedDfsTask)
+            else if (_task is DFSTask executedDFSTask)
             {
-                LogEmployees(executedDfsTask.GetEmployeesInRange());
+                LogEmployees(executedDFSTask.GetEmployeesInRange());
             }
-            else if(_task is SortTask executedSortTask)
+            else if(_task is BFSTask executedBFSTask)
             {
-                sortedEmployees = executedSortTask.GetEmployees();
-                LogEmployees(sortedEmployees);
+                LogEmployees(executedBFSTask.GetEmployeesInRange());
             }
-            else if(_task is SearchTask executedSearchTask)
-            {
-                Employee[] employeesInRange = executedSearchTask.GetEmployeesInRange();
-                LogEmployees(employeesInRange);
-            }
+            // else if(_task is SortTask executedSortTask)
+            // {
+            //     sortedEmployees = executedSortTask.GetEmployees();
+            //     LogEmployees(sortedEmployees);
+            // }
+            // else if(_task is SearchTask executedSearchTask)
+            // {
+            //     Employee[] employeesInRange = executedSearchTask.GetEmployeesInRange();
+            //     LogEmployees(employeesInRange);
+            // }
 
             tasks.Dequeue();
         }

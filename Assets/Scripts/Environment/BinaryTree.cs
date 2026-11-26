@@ -43,14 +43,20 @@ public class BinaryTree<T, TKey>
         return node;
     }
 
-    public List<T> FindInRange(TKey min, TKey max)
+    public List<T> FindInRangeDFS(TKey min, TKey max)
     {
         List<T> result = new();
-        Search(root, min, max, result);
+        DepthFirstSearch(root, min, max, result);
+        return result;
+    }
+    public List<T> FindInRangeBFS(TKey min, TKey max)
+    {
+        List<T> result = new();
+        BreadthFirstSearch(root, min, max, result);
         return result;
     }
 
-    private void Search(TreeNode node, TKey min, TKey max, List<T> result)
+    private void DepthFirstSearch(TreeNode node, TKey min, TKey max, List<T> result)
     {
         if (node == null) return;
 
@@ -59,12 +65,37 @@ public class BinaryTree<T, TKey>
         bool isSmallEnough = comparer.Compare(key, max) <= 0;
 
         if (isBigEnough)
-            Search(node.Left, min, max, result);
+            DepthFirstSearch(node.Left, min, max, result);
 
         if (isBigEnough && isSmallEnough)
             result.Add(node.Value);
 
         if (isSmallEnough)
-            Search(node.Right, min, max, result);
+            DepthFirstSearch(node.Right, min, max, result);
+    }
+    private void BreadthFirstSearch(TreeNode node, TKey min, TKey max, List<T> result)
+    {
+        if (node == null) return;
+
+        GenericQueue<TreeNode> queue = new();
+        queue.Enqueue(node);
+
+        while (queue.Count > 0)
+        {
+            TreeNode current = queue.Dequeue();
+
+            TKey key = getKey(current.Value);
+            bool isBigEnough = comparer.Compare(key, min) >= 0;
+            bool isSmallEnough = comparer.Compare(key, max) <= 0;
+
+            if (isBigEnough && isSmallEnough)
+                result.Add(current.Value);
+
+            if (isBigEnough && current.Left != null)
+                queue.Enqueue(current.Left);
+
+            if (isSmallEnough && current.Right != null)
+                queue.Enqueue(current.Right);
+        }
     }
 }
