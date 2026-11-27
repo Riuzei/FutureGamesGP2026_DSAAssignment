@@ -23,4 +23,17 @@ public class EmployeeEntranceComparer : IComparer<Employee>
         return x.LastEntranceInEngineRoom.CompareTo(y.LastEntranceInEngineRoom);
     }
 }
-
+public class EmployeeExitComparer : IComparer<Employee>
+{
+    public int Compare(Employee x, Employee y)
+    {
+        return x.LastExitFromEngineRoom.CompareTo(y.LastExitFromEngineRoom);
+    }
+}
+public class EmployeeClearanceComparer : IComparer<Employee>
+{
+    public int Compare(Employee x, Employee y)
+    {
+        return x.HasEngineRoomClearance.CompareTo(y.HasEngineRoomClearance);
+    }
+}

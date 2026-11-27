@@ -102,7 +102,7 @@ namespace Environment
         private void LogEmployees(Employee[] list)
         {
             foreach (Employee employee in list)
-                Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Last Entry : {employee.LastEntranceInEngineRoom}");
+                Debug.Log($"Name: {employee.Name}, ID: {employee.EmployeeId}, Has Clearance: {employee.HasEngineRoomClearance}, Last Entry : {employee.LastEntranceInEngineRoom}, Last Exit: {employee.LastExitFromEngineRoom}");
         }
     }
 }
