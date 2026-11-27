@@ -3,7 +3,9 @@
 namespace Environment.Tasks {
     public abstract class Task : ScriptableObject 
     {
-       public abstract void Execute();
+        public string taskName;
+        public string taskDescription;   
+        public abstract void Execute();
     }
 
 }

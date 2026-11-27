@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13e8befb5ae1445bba8af71ae2821eb5, type: 3}
   m_Name: ReadFileTask
   m_EditorClassIdentifier: Assembly-CSharp::Environment.Tasks.DebugPrintTask
+  taskName: DOWNLOAD DATA
+  taskDescription: Download data from server
   jsonFileAsset: {fileID: 4900000, guid: 7c05be95dc03b28479ae9f94ec590cdb, type: 3}

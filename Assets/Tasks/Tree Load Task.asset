@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662e73bf9fbea67408f163224f08a8d9, type: 3}
   m_Name: Tree Load Task
   m_EditorClassIdentifier: Assembly-CSharp::Environment.Tasks.TreeLoadTask
+  taskName: INSTALL DATA
+  taskDescription: Install downloaded data

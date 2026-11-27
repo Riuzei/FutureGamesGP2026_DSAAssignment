@@ -1,4 +1,5 @@
 ﻿using Environment.Tasks;
+using TMPro;
 using UnityEngine;
 
 namespace Environment
@@ -11,7 +12,8 @@ namespace Environment
         [SerializeField] private Task bfsTask;
         // [SerializeField] private Task sortTask;
         // [SerializeField] private Task searchTask;
- 
+        public TextMeshProUGUI nextTaskText;
+        public TextMeshProUGUI executedTaskText;
 
         Employee[] employees;
         Employee[] sortedEmployees;
@@ -24,6 +26,8 @@ namespace Environment
             tasks.Enqueue(treeLoadTask);
             tasks.Enqueue(dfsTask);
             tasks.Enqueue(bfsTask);
+            Task nextTask = tasks.Peek();
+            nextTaskText.text = "Next Task\n" + nextTask.taskName + "\n"+ nextTask.taskDescription;
             //tasks.Enqueue(sortTask);
             //tasks.Enqueue(searchTask);
         }
@@ -37,7 +41,7 @@ namespace Environment
         private void RunTaskInQueue()
         {
             Task _task = tasks.Peek();
-
+            executedTaskText.text = "EXECUTING\n" + _task.taskName;
             if (_task is TreeLoadTask loadTask)
                 loadTask.SetEmployees(employees);
             else if (_task is DFSTask dfs)
@@ -85,6 +89,14 @@ namespace Environment
             // }
 
             tasks.Dequeue();
+            executedTaskText.text = "Executed Task\n" + _task.taskName;
+            if(tasks.Count == 0) 
+            {
+                nextTaskText.text = "";
+                return;
+            }
+            Task nextTask = tasks.Peek();
+            nextTaskText.text = "Next Task\n" + nextTask.taskName + "\n"+ nextTask.taskDescription;
         }
 
         private void LogEmployees(Employee[] list)

@@ -2,12 +2,12 @@ using UnityEngine;
 
 namespace Environment.Tasks
 {
-    [CreateAssetMenu(fileName = "DFS Task", menuName = "Tasks/DFS Task")]
+    [CreateAssetMenu(fileName = "BFS Task", menuName = "Tasks/BFS Task")]
     public class BFSTask : Task
     {
         public string rangeStart;
         public string rangeEnd;
-
+        
         private BinaryTree<Employee, string> tree;
         private Employee[] employeesInRange;
 

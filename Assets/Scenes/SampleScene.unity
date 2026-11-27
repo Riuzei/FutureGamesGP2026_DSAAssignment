@@ -6239,6 +6239,10 @@ PrefabInstance:
       value: 3.0195637
       objectReference: {fileID: 0}
     - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
+      propertyPath: bfsTask
+      value: 
+      objectReference: {fileID: 11400000, guid: 48a7a38f875c2ba49bc0e5c5efdd742f, type: 2}
+    - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
       propertyPath: dfsTask
       value: 
       objectReference: {fileID: 11400000, guid: 21cd7682d859d6549abb3610200f2b1d, type: 2}
@@ -6255,6 +6259,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ff03f0eefaebe9e40aa1e0d120fb14ac, type: 2}
     - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
+      propertyPath: screenText
+      value: 
+      objectReference: {fileID: 141656263}
+    - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
       propertyPath: searchTask
       value: 
       objectReference: {fileID: 11400000, guid: 4e93d37b641bb7c478a67c0d3985b441, type: 2}
@@ -6267,6 +6275,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 92d2a74be371d9a4a9a0f72494b013ba, type: 2}
     - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
+      propertyPath: nextTaskText
+      value: 
+      objectReference: {fileID: 141656263}
+    - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
       propertyPath: statusPrompt
       value: 
       objectReference: {fileID: 202095074}
@@ -6278,6 +6290,10 @@ PrefabInstance:
       propertyPath: downloadPrompt
       value: 
       objectReference: {fileID: 141656263}
+    - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
+      propertyPath: executedTaskText
+      value: 
+      objectReference: {fileID: 202095074}
     - target: {fileID: 1261029998129311158, guid: 7d560e7070230eb46aeb1576bedf22f3, type: 3}
       propertyPath: downloadTaskPool.Array.size
       value: 5
